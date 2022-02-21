@@ -1,0 +1,2 @@
+A lire:
+Avant d'inserer les données de la table devis, inserer la fonction 'total_devis' avant à partir de la ligne 126 dont les arguments sont l'id du patient et le sejour du patient;
