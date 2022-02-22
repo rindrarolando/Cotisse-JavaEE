@@ -1,0 +1,71 @@
+package com.rindra.hopital.models;
+
+public class Patient {
+
+    public String nom;
+    public String dtn;
+    public int idmaladie;
+    public String statut;
+    public String date_entree;
+    public String date_sortie;
+
+    public Patient() {}
+
+    //Au cas où il y a une date de sortie
+    public Patient(String nom, String dtn, int idmaladie, String statut, String date_entree, String date_sortie) {
+        setNom(nom);
+        setDtn(dtn);
+        setIdmaladie(idmaladie);
+        setStatut(statut);
+        setDate_entree(date_entree);
+        setDate_sortie(date_sortie);
+    }
+    //Au cas où il n'y a pas de date de sortie
+    public Patient(String nom, String dtn, int idmaladie, String statut, String date_entree) {
+        setNom(nom);
+        setDtn(dtn);
+        setIdmaladie(idmaladie);
+        setStatut(statut);
+        setDate_entree(date_entree);
+    }
+
+    //Getters and setters
+    public String getNom() {
+        return nom;
+    }
+    public void setNom(String nom) {
+        this.nom = nom;
+    }
+    public String getDtn() {
+        return dtn;
+    }
+    public void setDtn(String dtn) {
+        this.dtn = dtn;
+    }
+    public int getIdmaladie() {
+        return idmaladie;
+    }
+    public void setIdmaladie(int idmaladie) {
+        this.idmaladie = idmaladie;
+    }
+    public String getStatut() {
+        return statut;
+    }
+    public void setStatut(String statut) {
+        this.statut = statut;
+    }
+    public String getDate_entree() {
+        return date_entree;
+    }
+    public void setDate_entree(String date_entree) {
+        this.date_entree = date_entree;
+    }
+    public String getDate_sortie() {
+        return date_sortie;
+    }
+    public void setDate_sortie(String date_sortie) {
+        this.date_sortie = date_sortie;
+    }
+
+    
+}
