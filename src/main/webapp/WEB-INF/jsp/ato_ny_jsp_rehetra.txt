@@ -1,0 +1,1 @@
+ato ny jsp atsika fa tsy ao @ le resources/templates .
