@@ -23,7 +23,7 @@ Create table patient(
     nom varchar(30),
     dtn date,
     idmaladie int NOT NULL references maladie(id),
-    statut varchar(15),
+    statut varchar(15) check(statut in('En traitement','Gueri')),
     date_entree date,
     date_sortie date default null
 );
@@ -31,10 +31,11 @@ INSERT INTO patient(nom,dtn,idmaladie,statut,date_entree) values('Eloic','2002-1
 INSERT INTO patient(nom,dtn,idmaladie,statut,date_entree) values('Irina','2002-2-12',2,'En traitement','2022-10-22');
 INSERT INTO patient(nom,dtn,idmaladie,statut,date_entree,date_sortie) values('Dina','2003-1-15',3,'Gueri','2022-10-12','2022-10-25');
 INSERT INTO patient(nom,dtn,idmaladie,statut,date_entree,date_sortie) values('Andy','2002-2-7',4,'Gueri','2022-8-10','2022-8-24');
-
+INSERT INTO patient(nom,dtn,idmaladie,statut,date_entree,date_sortie) values('Tahiry','2005-2-7',4,'Gueri','2022-8-10','2022-11-16');
+INSERT INTO patient(nom,dtn,idmaladie,statut,date_entree) values('Cedric','2002-10-7',3,'En traitement','2022-8-10');
 
 Create table chambre(
-    id varchar(12) NOT NULL PRIMARY KEY,
+    id varchar(12) NOT NULL PRIMARY KEY default (concat('chambre',nextval('chambre_sec'))),
     capacite int CHECK (capacite>=1 AND capacite<=6),
     prixparjour float
 );
@@ -51,7 +52,7 @@ Create table medecin(
     id serial NOT NULL primary key,
     nom varchar(30),
     dtn date,
-    statut varchar(15),
+    statut varchar(15) check(statut in('Infirmier','Generaliste','Specialiste','Professionel')),
     salaire_base float NOT NULL,
     prime float default null
 );
@@ -70,6 +71,8 @@ INSERT INTO hebergement(idchambre,idpatient) values('chambre1',1);
 INSERT INTO hebergement(idchambre,idpatient) values('chambre2',2);
 INSERT INTO hebergement(idchambre,idpatient) values('chambre3',3);
 INSERT INTO hebergement(idchambre,idpatient) values('chambre4',4);
+INSERT INTO hebergement(idchambre,idpatient) values('chambre1',5);
+INSERT INTO hebergement(idchambre,idpatient) values('chambre2',6);
 
 
 
@@ -84,6 +87,7 @@ Create table devis(
 
 INSERT INTO devis(idpatient,idchambre,sejour,montant,date_paiement) values(3,'chambre3',13,total_devis(3,13),'2022-10-25');
 INSERT INTO devis(idpatient,idchambre,sejour,montant,date_paiement) values(4,'chambre4',14,total_devis(4,14),'2022-8-24');
+INSERT INTO devis(idpatient,idchambre,sejour,montant,date_paiement) values(5,'chambre1',14,total_devis(4,91),'2022-11-16');
 
 
 
@@ -96,6 +100,7 @@ Create table traitement (
 
 INSERT INTO traitement (idpatient,idmedecin,date_traitement) VALUES(1,1,'2022-9-6');
 INSERT INTO traitement (idpatient,idmedecin,date_traitement) VALUES(2,2,'2022-10-25');
+INSERT INTO traitement (idpatient,idmedecin,date_traitement) VALUES(2,1,'2022-10-6');
 
 
 /* REQUETE */
@@ -138,13 +143,59 @@ end;
 $$;
 
 
+/* Fonction salaire des medecins */
+Create or replace function salaire_medecin(statut varchar,id_medecin int)
+returns float
+language plpgsql
+as 
+$$
+declare
+salaire_base integer;
+nombre_patient integer;
+begin
+IF statut ='Infirmier' THEN
+salaire_base=100000;
+
+elsif statut='Generaliste' THEN
+salaire_base=275000;
+
+elsif statut='Specialiste' THEN
+salaire_base=400000;
+
+elsif statut='Professionel'THEN
+salaire_base=575000;
+END IF;
+
+select count(idpatient) into nombre_patient from traitement where idmedecin=id_medecin;
+IF nombre_patient =0 or nombre_patient =1 THEN
+    salaire_base=salaire_base;
+ELSE
+salaire_base=salaire_base*nombre_patient;
+END IF;
+return salaire_base;
+end;
+$$;
 
 
+/* Trigger avance */
+/* Fonction du trigger */
+Create or replace function paiement_avance()
+returns TRIGGER
+ LANGUAGE PLPGSQL
+  AS
+$$
+declare
+date_e date;
+BEGIN
+select date_entree into date_e from Patient where id=NEW.idpatient;
+    INSERT INTO devis(idpatient,idchambre,sejour,montant,date_paiement) VALUES(NEW.idpatient,NEW.idchambre,1,200000,date_e);
+return NEW;
+END;
+$$;
 
-
-
-
-
-
-
-
+/* Le trigger en question */
+CREATE or replace TRIGGER paye_avance
+  AFTER INSERT
+  ON Hebergement  
+  FOR EACH ROW
+  EXECUTE PROCEDURE paiement_avance();
