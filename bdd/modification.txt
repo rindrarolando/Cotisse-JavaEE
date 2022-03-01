@@ -1,8 +1,0 @@
-Modification 26-2-2022:
-Ligne 26: statut varchar(15) check(statut in('En traitement','Gueri')),
-Ligne 37: id varchar(12) NOT NULL PRIMARY KEY default (concat('chambre',nextval('chambre_sec'))),
-Ligne 54: statut varchar(15) check(statut in('Infirmier','Generaliste','Specialiste','Professionel')),
-Ligne 142: fonction calcule  salaire d'un medecin;
-Ligne 177: Creation de la fonction  declencheur qui permet d'inserer les 200000Ar de paiement en avance après que le patient soit hebergé
-Lgine 192: Creation du declencheur en question.
-

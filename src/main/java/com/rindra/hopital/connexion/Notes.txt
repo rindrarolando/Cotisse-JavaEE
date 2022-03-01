@@ -1,9 +1,0 @@
-1- Classe Connexion
-2- Classe Patient
-3- Classe Requete 
-    -Fonciton pour avoir les chambres et les maladies des patients
-    -Fonction pour insérer un nouveau patient
-
-Encore à faire : -Fonction pour lister les patients
-
-Main : pour tester tous les codes
