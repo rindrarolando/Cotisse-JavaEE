@@ -14,5 +14,5 @@ requete : Requete -> toutes les requêtes à faire
 /*--Modifications--*/ 
 
 Connexion : -nouveau username et password (mais à chacun de voir son username et son passwoord)
-models : aucune modification
+models : -nouvelle classe médecin 
 requete : -ajout d'une fonction pour compter le nombre de ligne dans une table
