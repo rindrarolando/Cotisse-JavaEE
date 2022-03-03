@@ -10,6 +10,7 @@ package models;
  * @author Bryan
  */
 public class Maladie {
+    
     public int id;
     public String description;
     public int echelle;
