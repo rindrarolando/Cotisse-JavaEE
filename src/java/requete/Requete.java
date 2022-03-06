@@ -23,34 +23,21 @@ public class Requete {
         ResultSet rs = connexion.getResultSet();
         int count = 0;
         while(rs.next()) {
-            count++;
+            count = rs.getInt(1);
         }
         return count;
     }
-    //Liste des maladies
-    public ArrayList<Maladie> getmaladie() throws SQLException, Exception {
-        String request = "SELECT * FROM maladie";
+    /*Avoir les noms des colonnes d'une table*/
+    public String[] getTitle(String table) throws SQLException, Exception {
+        String request = "SELECT * FROM "+table;
         Connexion connexion = new Connexion(request);
         ResultSet rs = connexion.getResultSet();
-        ArrayList<Maladie> list = new ArrayList<Maladie>();
-        while(rs.next()) {
-            int id = rs.getInt(1);
-            String description = rs.getString(2);
-            int echelle = rs.getInt(3);
-            Maladie maladie = new Maladie(id,description,echelle);
-            list.add(maladie);
+        ResultSetMetaData rsmd = rs.getMetaData();
+        int count = rsmd.getColumnCount();
+        String[] title = new String[count];
+        for(int i = 1 ; i < count+1 ; i++) {
+            title[i-1] = rsmd.getColumnName(i);
         }
-        return list;
-    }
-    //inserer un nouveau patient
-    public void InsererPatient(Patient p) throws SQLException, Exception {
-        if(p.getDate_sortie() == null) {
-            String request = "INSERT INTO Patient(nom,dtn,idmaladie,statut,date_entree) VALUES('"+p.getNom()+"',DATE '"+p.getDtn()+"', "+p.getIdmaladie()+",'"+p.getStatut()+"',  DATE '"+p.getDate_entree()+"')";
-            Connexion connexion = new Connexion(request);
-        }
-        else{
-            String request = "INSERT INTO Patient(nom,dtn,idmaladie,statut,date_entree,date_sortie) VALUES('"+p.getNom()+"',DATE '"+p.getDtn()+"', "+p.getIdmaladie()+",'"+p.getStatut()+"',  DATE '"+p.getDate_entree()+"', DATE '"+p.getDate_sortie()+"')";
-            Connexion connexion = new Connexion(request);
-        }
-    }
+        return title;
+    } 
 }

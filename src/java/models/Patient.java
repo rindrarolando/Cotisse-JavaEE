@@ -10,9 +10,10 @@ package models;
  * @author Bryan
  */
 public class Patient {
+    private int id;
     public String nom;
     public String dtn;
-    public int idmaladie;
+    private int idmaladie;
     public String statut;
     public String date_entree;
     public String date_sortie;
@@ -20,7 +21,8 @@ public class Patient {
     public Patient() {}
     
     //Au cas où il y a une date de sortie
-    public Patient(String nom, String dtn, int idmaladie, String statut, String date_entree, String date_sortie) {
+    public Patient(int id, String nom, String dtn, int idmaladie, String statut, String date_entree, String date_sortie) {
+        setId(id);
         setNom(nom);
         setDtn(dtn);
         setIdmaladie(idmaladie);
@@ -29,14 +31,21 @@ public class Patient {
         setDate_sortie(date_sortie);
     }
     //Au cas où il n'y a pas de date de sortie
-    public Patient(String nom, String dtn, int idmaladie, String statut, String date_entree) {
+    public Patient(int id, String nom, String dtn, int idmaladie, String statut, String date_entree) {
+        setId(id);
         setNom(nom);
         setDtn(dtn);
         setIdmaladie(idmaladie);
         setStatut(statut);
         setDate_entree(date_entree);
     }
-
+    //Patient + maladie + statut
+    public int getId() {
+        return id;
+    }
+    public void setId(int id) {
+        this.id = id;
+    }
     public String getNom() {
         return nom;
     }

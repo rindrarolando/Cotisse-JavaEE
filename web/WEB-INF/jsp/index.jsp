@@ -1,4 +1,5 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@page import="requete.*,models.*,java.util.*,java.util.ArrayList,connexion.*"%>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
     "http://www.w3.org/TR/html4/loose.dtd">
 
@@ -9,11 +10,14 @@
     </head>
 
     <body>
-        <p>Hello! This is the default welcome page for a Spring Web MVC project.</p>
-        <p><i>To display a different welcome page for this project, modify</i>
-            <tt>index.jsp</tt> <i>, or create your own welcome page then change
-                the redirection in</i> <tt>redirect.jsp</tt> <i>to point to the new
-                welcome page and also update the welcome-file setting in</i>
-            <tt>web.xml</tt>.</p>
+        <p>Notes ! Cette page est encore une page pour tester les codes mais va changer une fois toutes<br>
+            les requêtes finies</p><br>
+        <%String[] title = new Requete().getTitle("Patient");%>
+        <form action ="#" method="POST">
+            <%for(int i = 0 ; i < title.length ; i++) {%>
+                <label><%out.println(title[i] + " : ");%><input type="text" name="<%out.println(title[i]);%>" placeholder="<%out.println(title[i]);%>"></label><br>
+            <%}%>
+            <input type="submit" value="rechercher">
+        </form>
     </body>
 </html>
