@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<web-app xmlns="http://xmlns.jcp.org/xml/ns/javaee"
+	 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	 xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd"
+	 version="3.1">
+    <session-config>
+        <session-timeout>
+            30
+        </session-timeout>
+    </session-config>
+    
+    <servlet>
+        <servlet-name>TraitementUpload</servlet-name>
+        <servlet-class>servlet.TraitementUpload</servlet-class>
+        <multipart-config>
+            <location>/Users/rindrarolando/Documents/NetBeansProjects/Mini_projet(trip)/src/java/servlet</location> <!-- A adapter chez vous -->
+            <max-file-size>10485760</max-file-size> <!-- 10 Mo -->
+            <max-request-size>52428800</max-request-size> <!-- 5 x 10 Mo -->
+            <file-size-threshold>1048576</file-size-threshold> <!-- 1 Mo -->
+        </multipart-config>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>TraitementUpload</servlet-name>
+        <url-pattern>/TraitementUpload</url-pattern>
+    </servlet-mapping>
+    
+</web-app>
